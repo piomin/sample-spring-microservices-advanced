@@ -21,25 +21,25 @@ public class AccountController {
 
 	protected Logger logger = Logger.getLogger(AccountController.class.getName());
 
-	@RequestMapping("/accounts/{number}")
+	@RequestMapping(value = "/accounts/{number}", method = RequestMethod.GET)
 	public Account findByNumber(@PathVariable("number") String number) {
 		logger.info(String.format("Account.findByNumber(%s)", number));
 		return repository.findByNumber(number);
 	}
 
-	@RequestMapping("/accounts/customer/{customer}")
+	@RequestMapping(value = "/accounts/customer/{customer}", method = RequestMethod.GET)
 	public List<Account> findByCustomer(@PathVariable("customer") String customerId) {
 		logger.info(String.format("Account.findByCustomer(%s)", customerId));
 		return repository.findByCustomerId(customerId);
 	}
 
-	@RequestMapping("/accounts")
+	@RequestMapping(value = "/accounts", method = RequestMethod.GET)
 	public List<Account> findAll() {
 		logger.info("Account.findAll()");
 		return repository.findAll();
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/accounts")
+	@RequestMapping(value = "/accounts", method = RequestMethod.POST)
 	public Account add(@RequestBody Account account) {
 		logger.info(String.format("Account.add(%s)", account));
 		return repository.save(account);

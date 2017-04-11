@@ -18,7 +18,7 @@ import pl.piomin.microservices.advanced.customer.repository.CustomerRepository;
 @RestController
 public class CustomerController {
 
-	@Autowired
+//	@Autowired
 	private AccountClient accountClient;
 	
 	@Autowired
@@ -26,19 +26,19 @@ public class CustomerController {
 	
 	protected Logger logger = Logger.getLogger(CustomerController.class.getName());
 	
-	@RequestMapping("/customers/pesel/{pesel}")
+	@RequestMapping(value = "/customers/pesel/{pesel}", method = RequestMethod.GET)
 	public Customer findByPesel(@PathVariable("pesel") String pesel) {
 		logger.info(String.format("Customer.findByPesel(%s)", pesel));
 		return repository.findByPesel(pesel);
 	}
 	
-	@RequestMapping("/customers")
+	@RequestMapping(value = "/customers", method = RequestMethod.GET)
 	public List<Customer> findAll() {
 		logger.info("Customer.findAll()");
 		return repository.findAll();
 	}
 	
-	@RequestMapping("/customers/{id}")
+	@RequestMapping(value = "/customers/{id}", method = RequestMethod.GET)
 	public Customer findById(@PathVariable("id") String id) {
 		logger.info(String.format("Customer.findById(%s)", id));
 		Customer customer = repository.findById(id);
@@ -47,7 +47,7 @@ public class CustomerController {
 		return customer;
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/customers")
+	@RequestMapping(value = "/customers", method = RequestMethod.POST)
 	public Customer add(@RequestBody Customer customer) {
 		logger.info(String.format("Customer.add(%s)", customer));
 		return repository.save(customer);
