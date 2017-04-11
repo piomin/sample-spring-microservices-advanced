@@ -1,12 +1,12 @@
 server:  
-  port: ${PORT:2222}
+  port: ${PORT:4444}
 
 spring:  
   application:
     name: product-service
   data:
     mongodb:
-      host: localhost
+      host: 192.168.99.100
       port: 27017
       username: micro 
       password: micro

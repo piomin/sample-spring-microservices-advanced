@@ -1,12 +1,7 @@
-package pl.piomin.microservices.advanced.account.model;
+package pl.piomin.microservices.advanced.product.contract;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "account")
 public class Account {
 
-	@Id
 	private String id;
 	private String number;
 	private int balance;
@@ -46,7 +41,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", number=" + number + ", customerId=" + customerId + "]";
+		return "Account [id=" + id + ", number=" + number + "]";
 	}
 
 }
