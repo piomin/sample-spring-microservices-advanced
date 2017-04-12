@@ -44,5 +44,11 @@ public class AccountController {
 		logger.info(String.format("Account.add(%s)", account));
 		return repository.save(account);
 	}
+	
+	@RequestMapping(value = "/accounts", method = RequestMethod.PUT)
+	public Account update(@RequestBody Account account) {
+		logger.info(String.format("Account.update(%s)", account));
+		return repository.save(account);
+	}
 
 }

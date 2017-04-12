@@ -18,7 +18,7 @@ import pl.piomin.microservices.advanced.customer.repository.CustomerRepository;
 @RestController
 public class CustomerController {
 
-//	@Autowired
+	@Autowired
 	private AccountClient accountClient;
 	
 	@Autowired
