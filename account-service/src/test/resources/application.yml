@@ -4,10 +4,10 @@ server:
 spring:  
   application:
     name: account-service
-#  data:
-#    mongodb:
-#      host: 192.168.99.100
-#      port: 27017
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
 #      username: micro 
 #      password: micro
 
