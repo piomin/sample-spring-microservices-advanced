@@ -16,17 +16,11 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
+
+	@Bean
+	UiConfiguration uiConfig() {
+		return new UiConfiguration("validatorUrl", "list", "alpha", "schema",
+				UiConfiguration.Constants.DEFAULT_SUBMIT_METHODS, false, true, 60000L);
+	}
 	
-	  @Bean
-	  UiConfiguration uiConfig() {
-	    return new UiConfiguration(
-	        "validatorUrl",
-	        "list",       // docExpansion          => none | list
-	        "alpha",      // apiSorter             => alpha
-	        "schema",     // defaultModelRendering => schema
-	        UiConfiguration.Constants.DEFAULT_SUBMIT_METHODS,
-	        false,        // enableJsonEditor      => true | false
-	        true,         // showRequestHeaders    => true | false
-	        60000L);      // requestTimeout => in milliseconds, defaults to null (uses jquery xh timeout)
-	  }
 }
