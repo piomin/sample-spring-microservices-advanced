@@ -53,4 +53,10 @@ public class CustomerController {
 		return repository.save(customer);
 	}
 	
+	@RequestMapping(value = "/customers", method = RequestMethod.PUT)
+	public Customer update(@RequestBody Customer customer) {
+		logger.info(String.format("Customer.update(%s)", customer));
+		return repository.save(customer);
+	}
+	
 }

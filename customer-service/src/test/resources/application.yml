@@ -1,0 +1,14 @@
+server:  
+  port: ${PORT:3333}
+
+spring:  
+  application:
+    name: customer-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      
+eureka:  
+  client:
+    enabled: false

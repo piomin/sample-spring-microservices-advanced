@@ -1,6 +1,7 @@
 package pl.piomin.microservices.advanced.account.api;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.junit.Assert;
@@ -22,30 +23,45 @@ import pl.piomin.microservices.advanced.account.repository.AccountRepository;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccountServiceTest {
 
+	private static final String TEST_CUSTOMER_ID = "234353464576586464";
+	private static final String TEST_NUMBER = "12345678909";
+	
 	protected Logger logger = Logger.getLogger(AccountServiceTest.class.getName());
 	
 	@Autowired
 	AccountRepository repository;
-	
 	@Autowired
 	TestRestTemplate template;
 	
 	@Test
 	public void test1AddAccount() {
 		Account a = new Account();
-		a.setNumber("12345678909");
+		a.setNumber(TEST_NUMBER);
 		a.setBalance(1232);
-		a.setCustomerId("234353464576586464");
+		a.setCustomerId(TEST_CUSTOMER_ID);
 		Account r = template.postForObject("/accounts", a, Account.class);
-		logger.info("Add " + r);
+		logger.info("Add: " + r);
 		Account rr = repository.findOne(r.getId());
 		Assert.assertEquals(r, rr);
 	}
 	
 	@Test
 	public void test2FindAccounts() {
-		Account[] accounts = template.getForObject("/accounts/customer/{customerId}", Account[].class, "234353464576586464");
-		logger.info("Find: " + Arrays.asList(accounts));
+		Account[] accounts = template.getForObject("/accounts/customer/{customerId}", Account[].class, TEST_CUSTOMER_ID);
+		List<Account> l = Arrays.asList(accounts);
+		logger.info("Find: " + l);
+		Assert.assertEquals(1, l.size());
+	}
+	
+	@Test
+	public void test3FindAndUpdateAccount() {
+		Account a = template.getForObject("/accounts/{number}", Account.class, TEST_NUMBER);
+		Assert.assertNotNull(a);
+		a.setBalance(0);
+		template.put("/accounts", a);
+		logger.info("Updated: " + a);
+		Account rr = repository.findOne(a.getId());
+		Assert.assertEquals(0, rr.getBalance());
 	}
 	
 }
