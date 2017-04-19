@@ -20,10 +20,10 @@ import pl.piomin.microservices.advanced.customer.model.Customer;
 import pl.piomin.microservices.advanced.customer.model.CustomerType;
 import pl.piomin.microservices.advanced.customer.repository.CustomerRepository;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@AutoConfigureStubRunner(ids = {"pl.piomin:account-service:+:stubs:8080"}, workOffline = true)
+//@AutoConfigureStubRunner(ids = {"pl.piomin:account-service:+:stubs:8080"}, workOffline = true)
 public class CustomerServiceTest {
 
 	private static final String TEST_PESEL = "12345678909";
