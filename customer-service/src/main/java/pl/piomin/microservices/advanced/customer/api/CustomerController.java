@@ -43,6 +43,7 @@ public class CustomerController {
 		logger.info(String.format("Customer.findById(%s)", id));
 		Customer customer = repository.findById(id);
 		List<Account> accounts =  accountClient.getAccounts(id);
+		logger.info(String.format("Customer.findById(): %s", accounts));
 		customer.setAccounts(accounts);
 		return customer;
 	}

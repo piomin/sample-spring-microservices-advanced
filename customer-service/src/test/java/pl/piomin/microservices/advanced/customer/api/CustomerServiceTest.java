@@ -20,10 +20,10 @@ import pl.piomin.microservices.advanced.customer.model.Customer;
 import pl.piomin.microservices.advanced.customer.model.CustomerType;
 import pl.piomin.microservices.advanced.customer.repository.CustomerRepository;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@AutoConfigureStubRunner(ids = {"pl.piomin:account-service:+:stubs:8080"}, workOffline = true)
+@AutoConfigureStubRunner(ids = {"pl.piomin:account-service:+:stubs:2222"}, workOffline = true)
 public class CustomerServiceTest {
 
 	private static final String TEST_PESEL = "12345678909";
@@ -50,29 +50,30 @@ public class CustomerServiceTest {
 		Assert.assertEquals(r, rr);
 	}
 	
-	@Test
-	public void test2FindCustomers() {
-		Customer[] customers = template.getForObject("/customers", Customer[].class);
-		List<Customer> l = Arrays.asList(customers);
-		logger.info("Find: " + l);
-		Assert.assertEquals(1, l.size());
-	}
-	
-	@Test
-	public void test3FindAndUpdateCustomer() {
-		Customer c = template.getForObject("/customers/pesel/{pesel}", Customer.class, TEST_PESEL);
-		Assert.assertNotNull(c);
-		c.setType(CustomerType.BUSINESS);
-		template.put("/customers", c);
-		logger.info("Updated: " + c);
-		Customer rr = repository.findOne(c.getId());
-		Assert.assertEquals(CustomerType.BUSINESS, rr.getType());
-	}
-	
 //	@Test
-//	public void test4FindWithAccounts() {
-//		Customer customer = template.getForObject("/customers/{id}", Customer.class, id);
-//		Assert.assertNotNull(customer);
+//	public void test2FindCustomers() {
+//		Customer[] customers = template.getForObject("/customers", Customer[].class);
+//		List<Customer> l = Arrays.asList(customers);
+//		logger.info("Find: " + l);
+//		Assert.assertEquals(1, l.size());
 //	}
+//	
+//	@Test
+//	public void test3FindAndUpdateCustomer() {
+//		Customer c = template.getForObject("/customers/pesel/{pesel}", Customer.class, TEST_PESEL);
+//		Assert.assertNotNull(c);
+//		c.setType(CustomerType.BUSINESS);
+//		template.put("/customers", c);
+//		logger.info("Updated: " + c);
+//		Customer rr = repository.findOne(c.getId());
+//		Assert.assertEquals(CustomerType.BUSINESS, rr.getType());
+//	}
+	
+	@Test
+	public void test4FindWithAccounts() {
+		Customer c = repository.findByPesel(TEST_PESEL);
+		Customer customer = template.getForObject("/customers/{id}", Customer.class, c.getId());
+		Assert.assertNotNull(customer);
+	}
 	
 }
