@@ -3,7 +3,7 @@ org.springframework.cloud.contract.spec.Contract.make {
     method 'POST'
     url '/customers'
 	body([
-	  id: "123456789"
+	  id: "123456789",
       pesel: "12345678909",
       name: "Jan Testowy",
 	  type: "INDIVIDUAL"
@@ -15,7 +15,7 @@ org.springframework.cloud.contract.spec.Contract.make {
 response {
   status 200
   body([
-	id: "123456789"
+	id: "123456789",
     pesel: "12345678909",
     name: "Jan Testowy",
 	type: "INDIVIDUAL"

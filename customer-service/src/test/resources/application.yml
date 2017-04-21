@@ -8,7 +8,10 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      
+  logging:
+    level:
+      org.springframework.cloud.contract: TRACE
+            
 eureka:  
   client:
     enabled: false

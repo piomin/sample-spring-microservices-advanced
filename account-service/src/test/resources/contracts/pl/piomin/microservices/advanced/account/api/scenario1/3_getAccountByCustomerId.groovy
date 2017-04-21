@@ -1,7 +1,7 @@
 org.springframework.cloud.contract.spec.Contract.make {
   request {
     method 'GET'
-    url '/accounts/customer/123456789'
+    url $(consumer(regex('^/accounts/customer/[0-9]{9}$')), producer('/accounts/customer/123456789'))
   }
 response {
   status 200
