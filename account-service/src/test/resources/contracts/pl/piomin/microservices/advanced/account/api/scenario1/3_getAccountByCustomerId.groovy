@@ -1,7 +1,7 @@
 org.springframework.cloud.contract.spec.Contract.make {
   request {
     method 'GET'
-    url $(consumer(regex('/accounts/customer/[a-z0-9]{24}')))
+    url '/accounts/customer/123456789'
   }
 response {
   status 200
@@ -9,7 +9,7 @@ response {
     id: $(regex('[a-z0-9]{24}')),
     number: "12345678909",
     balance: 1234,
-    customerId: "1"
+    customerId: "123456789"
   ])
   headers {
     contentType('application/json')

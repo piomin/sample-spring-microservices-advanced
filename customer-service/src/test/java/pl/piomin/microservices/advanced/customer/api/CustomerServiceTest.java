@@ -40,6 +40,7 @@ public class CustomerServiceTest {
 //	@Test
 	public void test1AddCustomer() {
 		Customer c = new Customer();
+		c.setId("123456789");
 		c.setName("Jan Testowy");
 		c.setPesel(TEST_PESEL);
 		c.setType(CustomerType.INDIVIDUAL);
