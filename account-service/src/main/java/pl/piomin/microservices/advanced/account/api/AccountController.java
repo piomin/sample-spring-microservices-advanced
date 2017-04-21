@@ -27,7 +27,7 @@ public class AccountController {
 		return repository.findByNumber(number);
 	}
 
-	@RequestMapping(value = "/accounts/customer/{customer}", method = RequestMethod.GET)
+	@RequestMapping(value = "/accounts/customer/{customer}", method = RequestMethod.GET, produces = "application/json")
 	public List<Account> findByCustomer(@PathVariable("customer") String customerId) {
 		logger.info(String.format("Account.findByCustomer(%s)", customerId));
 		return repository.findByCustomerId(customerId);

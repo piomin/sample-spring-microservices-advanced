@@ -6,7 +6,7 @@ org.springframework.cloud.contract.spec.Contract.make {
 response {
   status 200
   body([
-    id: $(regex('[a-z0-9]{24}')),
+    id: "123456789",
     pesel: "12345678909",
     name: "Jan Testowy",
 	type: "INDIVIDUAL"
