@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pl.piomin.microservices.advanced.customer.contract.Account;
 import pl.piomin.microservices.advanced.customer.contract.AccountClient;
+import pl.piomin.microservices.advanced.customer.contract.Product;
+import pl.piomin.microservices.advanced.customer.contract.ProductClient;
 import pl.piomin.microservices.advanced.customer.model.Customer;
 import pl.piomin.microservices.advanced.customer.repository.CustomerRepository;
 
@@ -20,6 +22,8 @@ public class CustomerController {
 
 	@Autowired
 	private AccountClient accountClient;
+	@Autowired
+	private ProductClient productClient;
 	
 	@Autowired
 	CustomerRepository repository;
@@ -45,6 +49,16 @@ public class CustomerController {
 		List<Account> accounts =  accountClient.getAccounts(id);
 		logger.info(String.format("Customer.findById(): %s", accounts));
 		customer.setAccounts(accounts);
+		return customer;
+	}
+	
+	@RequestMapping(value = "/customers/withProducts/{id}", method = RequestMethod.GET)
+	public Customer findWithProductsById(@PathVariable("id") String id) {
+		logger.info(String.format("Customer.findWithProductsById(%s)", id));
+		Customer customer = repository.findById(id);
+		List<Product> products =  productClient.getProducts(id);
+		logger.info(String.format("Customer.findWithProductsById(): %s", products));
+		customer.setProducts(products);
 		return customer;
 	}
 	

@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import pl.piomin.microservices.advanced.customer.contract.Account;
+import pl.piomin.microservices.advanced.customer.contract.Product;
 
 @Document(collection = "customer")
 public class Customer {
@@ -16,6 +17,7 @@ public class Customer {
 	private String name;
 	private CustomerType type;
 	private List<Account> accounts;
+	private List<Product> products;
 
 	public String getId() {
 		return id;
@@ -55,6 +57,14 @@ public class Customer {
 
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 	@Override

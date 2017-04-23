@@ -27,9 +27,15 @@ public class ProductController {
 	protected Logger logger = Logger.getLogger(ProductController.class.getName());
 	
 	@RequestMapping("/products/account/{accountId}")
-	public Product findByPesel(@PathVariable("accountId") String accountId) {
-		logger.info(String.format("Product.findByAccountId(%s)", accountId));
+	public List<Product> findByAccount(@PathVariable("accountId") String accountId) {
+		logger.info(String.format("Product.findByAccount(%s)", accountId));
 		return repository.findByAccountId(accountId);
+	}
+	
+	@RequestMapping("/products/customer/{customerId}")
+	public List<Product> findByCustomer(@PathVariable("customerId") String customerId) {
+		logger.info(String.format("Product.findByCustomer(%s)", customerId));
+		return repository.findByCustomerId(customerId);
 	}
 	
 	@RequestMapping("/products")
