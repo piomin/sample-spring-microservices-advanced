@@ -14,6 +14,7 @@ import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 
 import pl.piomin.microservices.advanced.customer.contract.AccountClient;
+import pl.piomin.microservices.advanced.customer.contract.ProductClient;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -25,7 +26,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableSwagger2
-@EnableFeignClients(clients = { AccountClient.class })
+@EnableFeignClients(clients = { AccountClient.class, ProductClient.class })
 public class Application {
 
 	public static void main(String[] args) {

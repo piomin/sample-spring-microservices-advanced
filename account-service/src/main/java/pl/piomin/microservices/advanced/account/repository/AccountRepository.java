@@ -8,6 +8,7 @@ import pl.piomin.microservices.advanced.account.model.Account;
 
 public interface AccountRepository extends MongoRepository<Account, String> {
 
+	public Account findById(String id);
     public Account findByNumber(String number);
     public List<Account> findByCustomerId(String customerId);
     

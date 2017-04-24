@@ -1,11 +1,11 @@
 org.springframework.cloud.contract.spec.Contract.make {
   request {
-    method 'POST'
+    method 'PUT'
     url '/accounts'
 	body([
 	  id: "1234567890",
       number: "12345678909",
-      balance: 1234,
+      balance: $(regex('[0-9]{4}')),
 	  customerId: "123456789"
 	])
 	headers {
@@ -17,7 +17,7 @@ response {
   body([
     id: "1234567890",
     number: "12345678909",
-    balance: 1234,
+    balance: $(regex('[0-9]{4}')),
     customerId: "123456789"
   ])
   headers {

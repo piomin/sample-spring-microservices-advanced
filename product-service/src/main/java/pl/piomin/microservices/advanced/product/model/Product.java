@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+
 @Document(collection = "product")
 public class Product {
 
@@ -14,7 +19,11 @@ public class Product {
 	private String accountId;
 	private String customerId;
 	private ProductType type;
+	@JsonSerialize(using = ToStringSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate dateOfStart;
+	@JsonSerialize(using = ToStringSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate dateOfEnd;
 
 	public String getId() {

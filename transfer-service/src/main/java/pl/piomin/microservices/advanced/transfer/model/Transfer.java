@@ -14,6 +14,7 @@ public class Transfer {
 	private String recipient;
 	private int amount;
 	private LocalDateTime createAt;
+	private TransferStatus status;
 
 	public String getId() {
 		return id;
@@ -53,6 +54,14 @@ public class Transfer {
 
 	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
+	}
+
+	public TransferStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TransferStatus status) {
+		this.status = status;
 	}
 
 	@Override

@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient("account-service")
 public interface AccountClient {
 
-	@RequestMapping(method = RequestMethod.GET, value = "/accounts/{accountId}")
-	Account getAccount(@PathVariable("accountId") String accountId);
+	@RequestMapping(method = RequestMethod.PUT, value = "/accounts")
+	Account putAccount(Account account);
 
+	@RequestMapping(method = RequestMethod.GET, value = "/accounts/{id}")
+	Account getAccount(@PathVariable("id") String id);
+	
 }

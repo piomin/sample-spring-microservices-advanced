@@ -1,21 +1,12 @@
 org.springframework.cloud.contract.spec.Contract.make {
   request {
-    method 'POST'
-    url '/accounts'
-	body([
-	  id: "1234567890",
-      number: "12345678909",
-      balance: 1234,
-	  customerId: "123456789"
-	])
-	headers {
-	  contentType('application/json')
-	}
+    method 'GET'
+    url '/accounts/1234567890'
   }
 response {
   status 200
   body([
-    id: "1234567890",
+    id: $(regex('[a-z0-9]{10}')),
     number: "12345678909",
     balance: 1234,
     customerId: "123456789"

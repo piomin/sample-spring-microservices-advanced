@@ -21,7 +21,13 @@ public class AccountController {
 
 	protected Logger logger = Logger.getLogger(AccountController.class.getName());
 
-	@RequestMapping(value = "/accounts/{number}", method = RequestMethod.GET)
+	@RequestMapping(value = "/accounts/{id}", method = RequestMethod.GET)
+	public Account findById(@PathVariable("id") String id) {
+		logger.info(String.format("Account.findById(%s)", id));
+		return repository.findById(id);
+	}
+	
+	@RequestMapping(value = "/accounts/number/{number}", method = RequestMethod.GET)
 	public Account findByNumber(@PathVariable("number") String number) {
 		logger.info(String.format("Account.findByNumber(%s)", number));
 		return repository.findByNumber(number);
@@ -47,7 +53,7 @@ public class AccountController {
 	
 	@RequestMapping(value = "/accounts", method = RequestMethod.PUT)
 	public Account update(@RequestBody Account account) {
-		logger.info(String.format("Account.update(%s)", account));
+		logger.info(String.format("Account.update(%s): %d", account, account.getBalance()));
 		return repository.save(account);
 	}
 
