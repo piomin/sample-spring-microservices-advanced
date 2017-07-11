@@ -1,0 +1,11 @@
+server:  
+  port: ${PORT:8888}
+    
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/piomin/sample-spring-microservices-advanced/tree/config
+          username: ${github.username}
+          password: ${github.password}

@@ -34,6 +34,7 @@
 		<module>gateway-service</module>
 		<module>product-service</module>
 		<module>transfer-service</module>
+		<module>config-server</module>
 	</modules>
 	
 </project>
