@@ -1,0 +1,24 @@
+server:  
+  port: ${PORT:2222}
+
+spring:  
+  application:
+    name: account-service
+  data:
+    mongodb:
+      host: 192.168.99.100
+      port: 27017
+      username: micro 
+      password: micro
+
+eureka:  
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761}/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+      
+ribbon:
+  eureka:
+    enabled: true
