@@ -6,12 +6,15 @@ spring:
     config:
       server:
         git:
-#          uri: https://github.com/piomin/sample-spring-microservices-advanced/tree/config
-          uri: file:///C:\Users\minkowp\Repo\config-repo
-#          username: ${github.username}
-#          password: ${github.password}
-#          searchPaths: account
+          uri: https://github.com/piomin/sample-config-repo.git
+          force-pull: true
+          username: ${github.username}
+          password: ${github.password}
 
+logging:
+  level:
+    org.springframework.cloud.config: DEBUG
+    
 management:
   security:
     enabled: false

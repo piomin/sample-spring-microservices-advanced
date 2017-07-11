@@ -1,0 +1,12 @@
+server:  
+  port: ${PORT:2222}
+
+spring:  
+  application:
+    name: account-service
+  cloud:
+    config:
+      uri: http://localhost:9999
+      name: account
+      profile: dev
+      label: develop
