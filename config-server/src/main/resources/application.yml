@@ -2,15 +2,28 @@ server:
   port: ${PORT:9999}
     
 spring:
+  application:
+    name: config-server
   cloud:
     config:
       server:
+        monitor:
+          github:
+            enabled: true
         git:
           uri: https://github.com/piomin/sample-config-repo.git
           force-pull: true
           username: ${github.username}
           password: ${github.password}
 
+eureka:  
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  
 logging:
   level:
     org.springframework.cloud.config: DEBUG

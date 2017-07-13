@@ -6,7 +6,19 @@ spring:
     name: account-service
   cloud:
     config:
-      uri: http://localhost:9999
+      discovery:
+        enabled: true
+        serviceId: config-server
       name: account
       profile: dev
       label: develop
+#      watch:
+#        enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
