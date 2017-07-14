@@ -12,18 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pl.piomin.microservices.advanced.account.model.Account;
 import pl.piomin.microservices.advanced.account.repository.AccountRepository;
+import pl.piomin.microservices.advanced.account.repository.TestAccountRepository;
 
 @RestController
 public class AccountController {
 
 	@Autowired
 	AccountRepository repository;
+	@Autowired
+	TestAccountRepository testRepository;
 
 	protected Logger logger = Logger.getLogger(AccountController.class.getName());
 
-	@RequestMapping(value = "/accounts/{number}", method = RequestMethod.GET)
-	public Account findByNumber(@PathVariable("number") String number) {
+	@RequestMapping(value = "/accounts/{number}/{test}", method = RequestMethod.GET)
+	public Account findByNumber(@PathVariable("number") String number, @PathVariable(value = "test", required = false) boolean test) {
 		logger.info(String.format("Account.findByNumber(%s)", number));
+		if (test)
+			return testRepository.findByNumber(number);
 		return repository.findByNumber(number);
 	}
 

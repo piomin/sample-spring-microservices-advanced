@@ -1,6 +1,3 @@
-server:  
-  port: ${PORT:2222}
-
 spring:  
   application:
     name: account-service
@@ -10,10 +7,8 @@ spring:
         enabled: true
         serviceId: config-server
       name: account
-      profile: dev
+      profile: development
       label: develop
-#      watch:
-#        enabled: true
 
 eureka:
   client:
