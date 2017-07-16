@@ -6,9 +6,9 @@ spring:
       discovery:
         enabled: true
         serviceId: config-server
-      name: account
-      profile: development
-      label: develop
+#      name: account
+      profile: default
+#      label: develop
 
 eureka:
   client:

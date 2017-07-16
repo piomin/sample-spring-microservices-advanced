@@ -6,16 +6,24 @@ spring:
     name: config-server
   cloud:
     config:
+      enabled: false
       server:
+        health:
+          enabled: false
         monitor:
           github:
             enabled: true
         git:
           uri: https://github.com/piomin/sample-config-repo.git
-          force-pull: true
+#          force-pull: true
           username: ${github.username}
           password: ${github.password}
-
+  rabbitmq:
+    host: 192.168.99.100
+    port: 30000
+    username: guest
+    password: guest
+    
 eureka:  
   client:
     serviceUrl:
@@ -28,6 +36,10 @@ logging:
   level:
     org.springframework.cloud.config: DEBUG
     
+endpoints:
+  restart:
+    enabled: false
+          
 management:
   security:
     enabled: false
