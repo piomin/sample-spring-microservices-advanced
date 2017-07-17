@@ -1,6 +1,7 @@
 package pl.piomin.microservices.advanced.account.repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -25,6 +26,14 @@ public class TestAccountRepository {
 	
 	public Account findByNumber(String number) {
 		return accounts.stream().filter(it -> it.getNumber().equals(number)).findFirst().get();
+	}
+	
+	public List<Account> findByCustomerId(String customerId) {
+		return accounts.stream().filter(it -> it.getCustomerId().equals(customerId)).collect(Collectors.toList());
+	}
+	
+	public List<Account> findAll() {
+		return accounts;
 	}
 	
 }

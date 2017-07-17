@@ -34,15 +34,19 @@ public class AccountController {
 		return repository.findByNumber(number);
 	}
 
-	@RequestMapping(value = "/accounts/customer/{customer}", method = RequestMethod.GET)
-	public List<Account> findByCustomer(@PathVariable("customer") String customerId) {
+	@RequestMapping(value = "/accounts/customer/{customer}/{test}", method = RequestMethod.GET)
+	public List<Account> findByCustomer(@PathVariable("customer") String customerId, @PathVariable(value = "test", required = false) boolean test) {
 		logger.info(String.format("Account.findByCustomer(%s)", customerId));
+		if (test)
+			return testRepository.findByCustomerId(customerId);
 		return repository.findByCustomerId(customerId);
 	}
 
 	@RequestMapping(value = "/accounts", method = RequestMethod.GET)
-	public List<Account> findAll() {
+	public List<Account> findAll(@PathVariable(value = "test", required = false) boolean test) {
 		logger.info("Account.findAll()");
+		if (test)
+			return testRepository.findAll();
 		return repository.findAll();
 	}
 
