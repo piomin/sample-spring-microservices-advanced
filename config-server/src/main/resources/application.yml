@@ -36,10 +36,10 @@ logging:
   level:
     org.springframework.cloud.config: DEBUG
     
-endpoints:
-  restart:
-    enabled: false
+#endpoints:
+#  restart:
+#    enabled: false
           
 management:
   security:
-    enabled: false
+enabled: false
