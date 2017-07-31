@@ -19,6 +19,16 @@ public class Customer {
 	private List<Account> accounts;
 	private List<Product> products;
 
+	public Customer() {
+
+	}
+	
+	public Customer(String pesel, String name, CustomerType type) {
+		this.pesel = pesel;
+		this.name = name;
+		this.type = type;
+	}
+
 	public String getId() {
 		return id;
 	}

@@ -15,3 +15,15 @@ spring:
 eureka:  
   client:
     enabled: false
+    
+ribbon:
+  eureka:
+    enable: false
+  listOfServers: account-service
+  
+account-service:
+  ribbon:
+    eureka:
+      enable: false
+    listOfServers: account-service
+    

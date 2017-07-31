@@ -12,6 +12,16 @@ public class Account {
 	private int balance;
 	private String customerId;
 
+	public Account() {
+
+	}
+	
+	public Account(String number, int balance, String customerId) {
+		this.number = number;
+		this.balance = balance;
+		this.customerId = customerId;
+	}
+
 	public String getId() {
 		return id;
 	}
