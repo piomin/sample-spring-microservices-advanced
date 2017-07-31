@@ -19,11 +19,9 @@ eureka:
 ribbon:
   eureka:
     enable: false
-  listOfServers: account-service
-  
-account-service:
-  ribbon:
-    eureka:
-      enable: false
-    listOfServers: account-service
+  listOfServers: account-service:2222
+
+feign:
+  hystrix:
+    enabled: false
     

@@ -35,7 +35,7 @@ public class CustomerControllerTest {
 	
     @ClassRule
     public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-        service("account-service")
+        service("account-service:2222")
             .get(startsWith("/accounts/customer/"))
             .willReturn(success("[{\"id\":\"1\",\"number\":\"1234567890\"}]", "application/json"))
     )).printSimulationData();
