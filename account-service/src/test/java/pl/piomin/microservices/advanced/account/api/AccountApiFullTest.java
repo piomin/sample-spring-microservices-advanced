@@ -21,38 +21,39 @@ import pl.piomin.microservices.advanced.account.Application;
 import pl.piomin.microservices.advanced.account.model.Account;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class}, webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = { Application.class }, webEnvironment = WebEnvironment.DEFINED_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccountApiFullTest {
 
 	protected Logger logger = Logger.getLogger(AccountApiFullTest.class.getName());
-	
+
 	@Autowired
 	TestRestTemplate template;
-	
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inCaptureOrSimulationMode("account.json", HoverflyConfig.configs().proxyLocalHost()).printSimulationData();
-    
-    @Test
-    public void addAccountTest() {    	
-    	Account a = new Account("1234567890", 1000, "1");
-    	ResponseEntity<Account> r = template.postForEntity("/accounts", a, Account.class);
-    	Assert.assertNotNull(r.getBody().getId());
-    	logger.info("New account: " + r.getBody().getId());
-    }
-    
-    @Test
-    public void findAccountByNumberTest() {
-    	Account a = template.getForObject("/accounts/number/{number}", Account.class, "1234567890");
-    	Assert.assertNotNull(a);
-    	logger.info("Found account: " + a.getId());
-    }
-    
-    @Test
-    public void findAccountByCustomerTest() {
-    	Account[] a = template.getForObject("/accounts/customer/{customer}", Account[].class, "1");
-    	Assert.assertTrue(a.length > 0);
-    	logger.info("Found accounts: " + a);
-    }
-    
+
+	@ClassRule
+	public static HoverflyRule hoverflyRule = HoverflyRule
+			.inCaptureOrSimulationMode("account.json", HoverflyConfig.configs().proxyLocalHost()).printSimulationData();
+
+	@Test
+	public void addAccountTest() {
+		Account a = new Account("1234567890", 1000, "1");
+		ResponseEntity<Account> r = template.postForEntity("/accounts", a, Account.class);
+		Assert.assertNotNull(r.getBody().getId());
+		logger.info("New account: " + r.getBody().getId());
+	}
+
+	@Test
+	public void findAccountByNumberTest() {
+		Account a = template.getForObject("/accounts/number/{number}", Account.class, "1234567890");
+		Assert.assertNotNull(a);
+		logger.info("Found account: " + a.getId());
+	}
+
+	@Test
+	public void findAccountByCustomerTest() {
+		Account[] a = template.getForObject("/accounts/customer/{customer}", Account[].class, "1");
+		Assert.assertTrue(a.length > 0);
+		logger.info("Found accounts: " + a);
+	}
+
 }

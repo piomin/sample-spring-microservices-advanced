@@ -32,20 +32,19 @@ public class CustomerControllerTest {
 
 	@Autowired
 	TestRestTemplate template;
-	
-    @ClassRule
-    public static HoverflyRule hoverflyRule = HoverflyRule.inSimulationMode(dsl(
-        service("account-service:2222")
-            .get(startsWith("/accounts/customer/"))
-            .willReturn(success("[{\"id\":\"1\",\"number\":\"1234567890\"}]", "application/json"))
-    )).printSimulationData();
-    
+
+	@ClassRule
+	public static HoverflyRule hoverflyRule = HoverflyRule
+			.inSimulationMode(dsl(service("account-service:2222").get(startsWith("/accounts/customer/"))
+					.willReturn(success("[{\"id\":\"1\",\"number\":\"1234567890\"}]", "application/json"))))
+			.printSimulationData();
+
 	@Test
 	public void addCustomerTest() {
 		Customer c = new Customer("1234567890", "Jan Testowy", CustomerType.INDIVIDUAL);
 		c = template.postForObject("/customers", c, Customer.class);
 	}
-	
+
 	@Test
 	public void findCustomerWithAccounts() {
 		Customer c = template.getForObject("/customers/pesel/{pesel}", Customer.class, "1234567890");
