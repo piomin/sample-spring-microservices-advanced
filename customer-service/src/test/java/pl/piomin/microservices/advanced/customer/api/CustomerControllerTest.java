@@ -23,6 +23,9 @@ import pl.piomin.microservices.advanced.customer.model.CustomerType;
 import static io.specto.hoverfly.junit.core.SimulationSource.*;
 import static io.specto.hoverfly.junit.dsl.HoverflyDsl.*;
 import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.*;
+
+import java.util.concurrent.TimeUnit;
+
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.*;
 
 @RunWith(SpringRunner.class)
@@ -35,7 +38,7 @@ public class CustomerControllerTest {
 
 	@ClassRule
 	public static HoverflyRule hoverflyRule = HoverflyRule
-			.inSimulationMode(dsl(service("account-service:2222").get(startsWith("/accounts/customer/"))
+			.inSimulationMode(dsl(service("account-service:2222").andDelay(3000, TimeUnit.MILLISECONDS).forMethod("GET").get(startsWith("/accounts/customer/"))
 					.willReturn(success("[{\"id\":\"1\",\"number\":\"1234567890\"}]", "application/json"))))
 			.printSimulationData();
 
