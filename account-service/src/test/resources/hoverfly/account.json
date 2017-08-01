@@ -1,6 +1,102 @@
 {
   "data" : {
-    "pairs" : [ ],
+    "pairs" : [ {
+      "request" : {
+        "path" : {
+          "exactMatch" : "/accounts/number/1234567890"
+        },
+        "method" : {
+          "exactMatch" : "GET"
+        },
+        "destination" : {
+          "exactMatch" : "localhost:2222"
+        },
+        "scheme" : {
+          "exactMatch" : "http"
+        },
+        "query" : {
+          "exactMatch" : ""
+        },
+        "body" : {
+          "exactMatch" : ""
+        }
+      },
+      "response" : {
+        "status" : 200,
+        "body" : "{\"id\":\"5980642bc96045216447023b\",\"number\":\"1234567890\",\"balance\":1000,\"customerId\":\"1\"}",
+        "encodedBody" : false,
+        "templated" : false,
+        "headers" : {
+          "Content-Type" : [ "application/json;charset=UTF-8" ],
+          "Date" : [ "Tue, 01 Aug 2017 11:21:15 GMT" ],
+          "Hoverfly" : [ "Was-Here" ]
+        }
+      }
+    }, {
+      "request" : {
+        "path" : {
+          "exactMatch" : "/accounts/customer/1"
+        },
+        "method" : {
+          "exactMatch" : "GET"
+        },
+        "destination" : {
+          "exactMatch" : "localhost:2222"
+        },
+        "scheme" : {
+          "exactMatch" : "http"
+        },
+        "query" : {
+          "exactMatch" : ""
+        },
+        "body" : {
+          "exactMatch" : ""
+        }
+      },
+      "response" : {
+        "status" : 200,
+        "body" : "[{\"id\":\"5980642bc96045216447023b\",\"number\":\"1234567890\",\"balance\":1000,\"customerId\":\"1\"}]",
+        "encodedBody" : false,
+        "templated" : false,
+        "headers" : {
+          "Content-Type" : [ "application/json;charset=UTF-8" ],
+          "Date" : [ "Tue, 01 Aug 2017 11:21:15 GMT" ],
+          "Hoverfly" : [ "Was-Here" ]
+        }
+      }
+    }, {
+      "request" : {
+        "path" : {
+          "exactMatch" : "/accounts"
+        },
+        "method" : {
+          "exactMatch" : "POST"
+        },
+        "destination" : {
+          "exactMatch" : "localhost:2222"
+        },
+        "scheme" : {
+          "exactMatch" : "http"
+        },
+        "query" : {
+          "exactMatch" : ""
+        },
+        "body" : {
+          "exactMatch" : "{\"id\":null,\"number\":\"1234567890\",\"balance\":1000,\"customerId\":\"1\"}"
+        }
+      },
+      "response" : {
+        "status" : 200,
+        "body" : "{\"id\":\"5980642bc96045216447023b\",\"number\":\"1234567890\",\"balance\":1000,\"customerId\":\"1\"}",
+        "encodedBody" : false,
+        "templated" : false,
+        "headers" : {
+          "Content-Type" : [ "application/json;charset=UTF-8" ],
+          "Date" : [ "Tue, 01 Aug 2017 11:21:15 GMT" ],
+          "Hoverfly" : [ "Was-Here" ]
+        }
+      }
+    } ],
     "globalActions" : {
       "delays" : [ ]
     }
