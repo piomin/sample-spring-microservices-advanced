@@ -19,6 +19,7 @@ eureka:
 ribbon:
   eureka:
     enable: false
+#  ReadTimeout: 1000
   listOfServers: account-service:2222
 
 feign:
