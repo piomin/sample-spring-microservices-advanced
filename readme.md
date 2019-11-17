@@ -27,6 +27,9 @@ Our sample microservices-based system consists of the following modules:
 The following picture illustrates an approach to a contract and component testing in our sample architecture described above.
 
 <img src="https://piotrminkowski.files.wordpress.com/2017/04/testingmicroservices2.png" title="Testing"/><br/>
-The whole sample architecture is visible on the picture below. Each microservice has its own database as shown on the following picture. For simplification in my articles I'm using a single database run on Docker container and multiple collections.   
+The whole sample architecture is visible on the picture below. Each microservice has its own database as shown on the following picture. 
+
+
+For simplification in my articles I'm using a single database run on Docker container and multiple collections.   
 
 <img src="https://piotrminkowski.files.wordpress.com/2019/11/micro_begin-1.png" title="Architecture"/>
