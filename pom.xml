@@ -27,7 +27,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <sonar.projectKey>piomin_sample-spring-microservices-new</sonar.projectKey>
+        <sonar.projectKey>piomin_sample-spring-microservices-advanced</sonar.projectKey>
         <sonar.organization>piomin</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
