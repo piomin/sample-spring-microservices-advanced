@@ -46,7 +46,7 @@ public class TransferController {
 	@RequestMapping("/transfers/{id}")
 	public Transfer findById(@PathVariable("id") String id) {
 		logger.info(String.format("Transfer.findById(%s)", id));
-		Transfer transfer = repository.findById(id);
+		Transfer transfer = repository.findById(id).orElseThrow();
 		//Account account =  accountClient.getAccount(id);
 		//transfer.setCustomerId(account.getCustomerId());
 		return transfer;

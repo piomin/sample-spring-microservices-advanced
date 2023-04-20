@@ -3,25 +3,29 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: 'cimg/openjdk:11.0'
+      - image: 'cimg/openjdk:17.0'
     steps:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
+          command: mvn verify sonar:sonar -DskipTests
 
 executors:
   jdk:
     docker:
-      - image: 'cimg/openjdk:11.0'
+      - image: 'cimg/openjdk:17.0'
 
 orbs:
   maven: circleci/maven@1.4.1
+  tcc: atomicjar/testcontainers-cloud-orb@0.1.0
 
 workflows:
   maven_test:
     jobs:
       - maven/test:
           executor: jdk
+          context: Testcontainers
+          pre-steps:
+            - tcc/setup
       - build:
           context: SonarCloud
