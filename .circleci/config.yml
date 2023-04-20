@@ -17,11 +17,15 @@ executors:
 
 orbs:
   maven: circleci/maven@1.4.1
+  tcc: atomicjar/testcontainers-cloud-orb@0.1.0
 
 workflows:
   maven_test:
     jobs:
       - maven/test:
           executor: jdk
+          context: Testcontainers
+          pre-steps:
+            - tcc/setup
       - build:
           context: SonarCloud
