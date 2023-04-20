@@ -7,6 +7,5 @@ import pl.piomin.microservices.advanced.product.model.Product;
 public interface ProductRepository extends MongoRepository<Product, String> {
 
 	public Product findByAccountId(String accountId);
-	public Product findById(String id);
 
 }

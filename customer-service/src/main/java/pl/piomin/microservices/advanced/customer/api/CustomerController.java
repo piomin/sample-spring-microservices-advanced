@@ -41,7 +41,7 @@ public class CustomerController {
 	@RequestMapping(value = "/customers/{id}", method = RequestMethod.GET)
 	public Customer findById(@PathVariable("id") String id) {
 		logger.info(String.format("Customer.findById(%s)", id));
-		Customer customer = repository.findById(id);
+		Customer customer = repository.findById(id).orElseThrow();
 		List<Account> accounts =  accountClient.getAccounts(id);
 		customer.setAccounts(accounts);
 		return customer;

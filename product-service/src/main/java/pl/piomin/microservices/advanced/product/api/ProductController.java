@@ -41,7 +41,7 @@ public class ProductController {
 	@RequestMapping("/products/{id}")
 	public Product findById(@PathVariable("id") String id) {
 		logger.info(String.format("Product.findById(%s)", id));
-		Product product = repository.findById(id);
+		Product product = repository.findById(id).orElseThrow();
 		Account account =  accountClient.getAccount(id);
 		product.setCustomerId(account.getCustomerId());
 		return product;
