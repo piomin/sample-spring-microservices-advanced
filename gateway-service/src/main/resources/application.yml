@@ -9,6 +9,64 @@ endpoints:
   health:
     sensitive: false
 
+spring:
+  output:
+    ansi:
+      enabled: always
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/account/**
+          filters:
+            - RewritePath=/account/(?<path>.*), /$\{path}
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/customer/**
+          filters:
+            - RewritePath=/customer/(?<path>.*), /$\{path}
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/product/**
+          filters:
+            - RewritePath=/product/(?<path>.*), /$\{path}
+        - id: transfer-service
+          uri: lb://transfer-service
+          predicates:
+            - Path=/transfer/**
+          filters:
+            - RewritePath=/transfer/(?<path>.*), /$\{path}
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: account
+        url: /v3/api-docs/account
+      - name: customer
+        url: /v3/api-docs/customer
+      - name: product
+        url: /v3/api-docs/product
+      - name: transfer
+        url: /v3/api-docs/transfer
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
 zuul:
   prefix: /api
   routes:

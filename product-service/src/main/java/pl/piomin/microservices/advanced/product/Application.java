@@ -6,11 +6,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import pl.piomin.microservices.advanced.product.contract.AccountClient;
 
 @SpringBootApplication
-@EnableFeignClients(clients = { AccountClient.class })
+@EnableFeignClients(clients = {AccountClient.class})
 public class Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-    
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
 }
