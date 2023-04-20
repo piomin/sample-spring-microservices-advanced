@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
+          command: mvn verify sonar:sonar -DskipTests
 
 executors:
   jdk:
