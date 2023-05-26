@@ -4,12 +4,12 @@ server:
 spring:  
   application:
     name: account-service
-#  data:
-#    mongodb:
-#      host: localhost
-#      port: 27017
-#      username: micro
-#      password: micro
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      username: micro
+      password: micro
 
 eureka:  
   client:

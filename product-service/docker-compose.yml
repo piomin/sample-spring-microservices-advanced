@@ -1,0 +1,64 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+  discovery-service:
+    image: sample-spring-microservices-advanced/discovery-service:1.0-SNAPSHOT
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: curl --fail http://localhost:8761/eureka/v2/apps || exit 1
+      interval: 4s
+      timeout: 2s
+      retries: 3
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+  customer-service:
+    image: sample-spring-microservices-advanced/customer-service:1.0-SNAPSHOT
+    ports:
+      - "8080"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    links:
+      - mongo
+      - discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+  product-service:
+    image: sample-spring-microservices-advanced/product-service:1.0-SNAPSHOT
+    ports:
+      - "8080"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    links:
+      - mongo
+      - discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+  account-service:
+    image: sample-spring-microservices-advanced/transfer-service:1.0-SNAPSHOT
+    ports:
+      - "8080"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    links:
+      - mongo
+      - discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+  gateway-service:
+    image: sample-spring-microservices-advanced/gateway-service:1.0-SNAPSHOT
+    ports:
+      - "8765:8765"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    links:
+      - discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
