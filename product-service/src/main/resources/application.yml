@@ -10,6 +10,8 @@ spring:
       port: 27017
       username: micro 
       password: micro
+  main:
+    allow-bean-definition-overriding: true
       
 eureka:  
   client:

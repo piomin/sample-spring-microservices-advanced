@@ -1,7 +1,7 @@
 server:  
   port: ${PORT:3333}
 
-spring:  
+spring:
   application:
     name: customer-service
   data:
@@ -10,7 +10,9 @@ spring:
       port: 27017
       username: micro 
       password: micro
-      
+  main:
+    allow-bean-definition-overriding: true
+
 eureka:  
   client:
     serviceUrl:

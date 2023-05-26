@@ -15,30 +15,6 @@ services:
       retries: 3
     environment:
       SPRING_PROFILES_ACTIVE: docker
-  customer-service:
-    image: sample-spring-microservices-advanced/customer-service:1.0-SNAPSHOT
-    ports:
-      - "8080"
-    depends_on:
-      discovery-service:
-        condition: service_healthy
-    links:
-      - mongo
-      - discovery-service
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-  product-service:
-    image: sample-spring-microservices-advanced/product-service:1.0-SNAPSHOT
-    ports:
-      - "8080"
-    depends_on:
-      discovery-service:
-        condition: service_healthy
-    links:
-      - mongo
-      - discovery-service
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
   account-service:
     image: sample-spring-microservices-advanced/transfer-service:1.0-SNAPSHOT
     ports:
@@ -48,17 +24,6 @@ services:
         condition: service_healthy
     links:
       - mongo
-      - discovery-service
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-  gateway-service:
-    image: sample-spring-microservices-advanced/gateway-service:1.0-SNAPSHOT
-    ports:
-      - "8765:8765"
-    depends_on:
-      discovery-service:
-        condition: service_healthy
-    links:
       - discovery-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
