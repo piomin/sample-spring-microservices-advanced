@@ -23,9 +23,6 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Autowired
-    RouteDefinitionLocator locator;
-
     @Bean
     @Lazy(false)
     public Set<SwaggerUrl> apis(RouteDefinitionLocator locator, SwaggerUiConfigProperties swaggerUiConfigProperties) {
