@@ -1,8 +1,8 @@
+
 package pl.piomin.microservices.advanced.gateway;
 
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties.SwaggerUrl;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteDefinition;
@@ -19,25 +19,27 @@ import static org.springdoc.core.utils.Constants.DEFAULT_API_DOCS_URL;
 @SpringBootApplication
 public class Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
-	@Autowired
-	RouteDefinitionLocator locator;
+    @Autowired
+    RouteDefinitionLocator locator;
 
-	@Bean
-	@Lazy(false)
-	public Set<SwaggerUrl> apis(RouteDefinitionLocator locator, SwaggerUiConfigProperties swaggerUiConfigProperties) {
-		Set<SwaggerUrl> urls = new HashSet<>();
-		List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
-		definitions.stream().filter(routeDefinition -> routeDefinition.getId().matches(".*-service")).forEach(routeDefinition -> {
-			String name = routeDefinition.getId().replaceAll("-service", "");
-			SwaggerUrl swaggerUrl = new SwaggerUrl(name, DEFAULT_API_DOCS_URL+"/" + name, null);
-			urls.add(swaggerUrl);
-		});
-		swaggerUiConfigProperties.setUrls(urls);
-		return urls;
-	}
+    @Bean
+    @Lazy(false)
+    public Set<SwaggerUrl> apis(RouteDefinitionLocator locator, SwaggerUiConfigProperties swaggerUiConfigProperties) {
+        Set<SwaggerUrl> urls = new HashSet<>();
+        List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
+        definitions.stream()
+            .filter(routeDefinition -> routeDefinition.getId().matches(".*-service"))
+            .forEach(routeDefinition -> {
+                String name = routeDefinition.getId().replaceAll("-service", "");
+                SwaggerUrl swaggerUrl = new SwaggerUrl(name, DEFAULT_API_DOCS_URL + "/" + name, null);
+                urls.add(swaggerUrl);
+            });
+        swaggerUiConfigProperties.setUrls(urls);
+        return urls;
+    }
 
 }
