@@ -17,8 +17,7 @@ import pl.piomin.microservices.advanced.customer.repository.CustomerRepository;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
 @Testcontainers
@@ -47,8 +46,8 @@ public class CustomerRepositoryTests {
         c.setPesel("1234567890");
         c.setType(CustomerType.INDIVIDUAL);
         c = repository.save(c);
-        assertNotNull(c);
-        assertNotNull(c.getId());
+        assertNotNull(c, "Customer should not be null after saving");
+        assertNotNull(c.getId(), "Customer ID should not be null after saving");
         id = c.getId();
     }
 
@@ -56,15 +55,22 @@ public class CustomerRepositoryTests {
     @Order(2)
     public void testFindCustomer() {
         Optional<Customer> optCus = repository.findById(id);
-        assertTrue(optCus.isPresent());
+        assertTrue(optCus.isPresent(), "Customer should be found by ID");
+        assertEquals("Test1", optCus.get().getName(), "Customer name should match");
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     public void testFindCustomerByPesel() {
         Customer c = repository.findByPesel("1234567890");
-        assertNotNull(c);
-        assertNotNull(c.getId());
+        assertNotNull(c, "Customer should not be null when found by PESEL");
+        assertEquals("1234567890", c.getPesel(), "Customer PESEL should match");
     }
 
+    @Test
+    @Order(4)
+    public void testFindNonExistentCustomer() {
+        Optional<Customer> optCus = repository.findById("non-existent-id");
+        assertFalse(optCus.isPresent(), "Customer should not be found for a non-existent ID");
+    }
 }
