@@ -18,8 +18,7 @@ import pl.piomin.microservices.advanced.product.repository.ProductRepository;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
 @Testcontainers
@@ -50,23 +49,31 @@ public class ProductRepositoryTests {
         p.setBalance(10000);
         p.setDateOfStart(LocalDate.now());
         p = repository.save(p);
-        assertNotNull(p);
-        assertNotNull(p.getId());
+        assertNotNull(p, "Product should not be null after saving");
+        assertNotNull(p.getId(), "Product ID should not be null after saving");
         id = p.getId();
     }
 
     @Test
     @Order(2)
     public void testFindProduct() {
-        Optional<Product> optCus = repository.findById(id);
-        assertTrue(optCus.isPresent());
+        Optional<Product> optProd = repository.findById(id);
+        assertTrue(optProd.isPresent(), "Product should be found by ID");
+        assertEquals("123", optProd.get().getAccountId(), "Product account ID should match");
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     public void testFindProductByAccountId() {
         Product p = repository.findByAccountId("123");
-        assertNotNull(p);
-        assertNotNull(p.getId());
+        assertNotNull(p, "Product should not be null when found by account ID");
+        assertEquals("123", p.getAccountId(), "Product account ID should match");
+    }
+
+    @Test
+    @Order(4)
+    public void testFindNonExistentProduct() {
+        Optional<Product> optProd = repository.findById("non-existent-id");
+        assertFalse(optProd.isPresent(), "Product should not be found for a non-existent ID");
     }
 }

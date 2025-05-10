@@ -15,8 +15,7 @@ import pl.piomin.microservices.advanced.account.model.Account;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
 @Testcontainers
@@ -45,8 +44,8 @@ public class AccountRepositoryTest {
         a.setBalance(1232);
         a.setCustomerId("234353464576586464");
         a = repository.save(a);
-        assertNotNull(a);
-        assertNotNull(a.getId());
+        assertNotNull(a, "Account should not be null after saving");
+        assertNotNull(a.getId(), "Account ID should not be null after saving");
         id = a.getId();
     }
 
@@ -54,15 +53,22 @@ public class AccountRepositoryTest {
     @Order(2)
     public void testFindAccount() {
         Optional<Account> optAcc = repository.findById(id);
-        assertTrue(optAcc.isPresent());
+        assertTrue(optAcc.isPresent(), "Account should be found by ID");
+        assertEquals("12345678909", optAcc.get().getNumber(), "Account number should match");
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     public void testFindAccountByNumber() {
         Account a = repository.findByNumber("12345678909");
-        assertNotNull(a);
-        assertNotNull(a.getId());
+        assertNotNull(a, "Account should not be null when found by number");
+        assertEquals("12345678909", a.getNumber(), "Account number should match");
     }
 
+    @Test
+    @Order(4)
+    public void testFindNonExistentAccount() {
+        Optional<Account> optAcc = repository.findById("non-existent-id");
+        assertFalse(optAcc.isPresent(), "Account should not be found for a non-existent ID");
+    }
 }
