@@ -12,7 +12,7 @@ public class AccountContainersConfiguration {
     @Bean
     @ServiceConnection
     public MongoDBContainer mongodbContainer() {
-        return new MongoDBContainer(DockerImageName.parse("mongo:4.4"));
+        return new MongoDBContainer(DockerImageName.parse("mongo:8.0"));
     }
 
 }

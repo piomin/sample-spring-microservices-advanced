@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CustomerRepositoryTests {
 
     @Container
-    static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4");
+    static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:8.0");
 
     @DynamicPropertySource
     static void registerMongoProperties(DynamicPropertyRegistry registry) {
