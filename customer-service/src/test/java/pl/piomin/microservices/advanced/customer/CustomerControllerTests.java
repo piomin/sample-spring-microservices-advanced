@@ -25,8 +25,7 @@ import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
 import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.startsWith;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {
@@ -59,10 +58,13 @@ public class CustomerControllerTests {
         c.setPesel("1234567890");
         c.setName("Jan Testowy");
         c = template.postForObject("/customers", c, Customer.class);
+        assertNotNull(c, "Customer should not be null after being added");
+        assertNotNull(c.getId(), "Customer ID should not be null after being added");
+        id = c.getId();
     }
 
-//    @Test
-//    @Order(2)
+    @Test
+    @Order(2)
     public void findCustomerWithAccounts(Hoverfly hoverfly) {
         hoverfly.simulate(
                 dsl(service("http://account-service")
@@ -70,8 +72,11 @@ public class CustomerControllerTests {
                         .willReturn(success("[{\"id\":\"1\",\"number\":\"1234567890\"}]", "application/json"))));
 
         Customer c = template.getForObject("/customers/pesel/{pesel}", Customer.class, "1234567890");
+        assertNotNull(c, "Customer should not be null when fetched by PESEL");
+        assertEquals("1234567890", c.getPesel(), "Customer PESEL should match");
+
         Customer cc = template.getForObject("/customers/{id}", Customer.class, c.getId());
-        assertNotNull(cc);
-        assertTrue(cc.getAccounts().size() > 0);
+        assertNotNull(cc, "Customer should not be null when fetched by ID");
+        assertTrue(cc.getAccounts().size() > 0, "Customer should have associated accounts");
     }
 }
