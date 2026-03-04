@@ -18,16 +18,19 @@ import pl.piomin.microservices.advanced.product.repository.ProductRepository;
 @RestController
 public class ProductController {
 
-    @Autowired
-    private AccountClient accountClient;
 
-    @Autowired
-    ProductRepository repository;
+    public ProductController(AccountClient accountClient, ProductRepository repository) {
+        this.accountClient = accountClient;
+        this.repository = repository;
+    }
+
+    private AccountClient accountClient;
+    private ProductRepository repository;
 
     protected Logger logger = Logger.getLogger(ProductController.class.getName());
 
     @RequestMapping("/products/account/{accountId}")
-    public Product findByPesel(@PathVariable("accountId") String accountId) {
+    public Product findByPesel(@PathVariable String accountId) {
         logger.info(String.format("Product.findByAccountId(%s)", accountId));
         return repository.findByAccountId(accountId);
     }
@@ -39,7 +42,7 @@ public class ProductController {
     }
 
     @RequestMapping("/products/{id}")
-    public Product findById(@PathVariable("id") String id) {
+    public Product findById(@PathVariable String id) {
         logger.info(String.format("Product.findById(%s)", id));
         Product product = repository.findById(id).orElseThrow();
         Account account = accountClient.getAccount(id);
