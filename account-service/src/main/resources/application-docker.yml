@@ -2,10 +2,9 @@ server:
   port: 8080
 
 spring:
-  data:
-    mongodb:
-      host: mongo
-      port: 27017
+  mongodb:
+    host: mongo
+    port: 27017
 
 eureka:  
   client:

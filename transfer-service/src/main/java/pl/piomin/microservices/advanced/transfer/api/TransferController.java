@@ -17,22 +17,24 @@ import pl.piomin.microservices.advanced.transfer.repository.TransferRepository;
 @RestController
 public class TransferController {
 
-	@Autowired
+	public TransferController(AccountClient accountClient, TransferRepository repository) {
+		this.accountClient = accountClient;
+		this.repository = repository;
+	}
+
 	private AccountClient accountClient;
-	
-	@Autowired
-	TransferRepository repository;
+	private TransferRepository repository;
 	
 	protected Logger logger = Logger.getLogger(TransferController.class.getName());
 	
 	@RequestMapping("/transfers/sender/{sender}")
-	public List<Transfer> findBySender(@PathVariable("sender") String sender) {
+	public List<Transfer> findBySender(@PathVariable String sender) {
 		logger.info(String.format("Transfer.findBySender(%s)", sender));
 		return repository.findBySender(sender);
 	}
 	
 	@RequestMapping("/transfers/recipient/{recipient}")
-	public List<Transfer> findByRecipient(@PathVariable("recipient") String recipient) {
+	public List<Transfer> findByRecipient(@PathVariable String recipient) {
 		logger.info(String.format("Transfer.findByRecipient(%s)", recipient));
 		return repository.findByRecipient(recipient);
 	}

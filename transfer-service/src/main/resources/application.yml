@@ -4,12 +4,11 @@ server:
 spring:  
   application:
     name: transfer-service
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      username: micro 
-      password: micro
+  mongodb:
+    host: localhost
+    port: 27017
+    username: micro
+    password: micro
   main:
     allow-bean-definition-overriding: true
       
@@ -20,7 +19,3 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-      
-ribbon:
-  eureka:
-    enabled: true

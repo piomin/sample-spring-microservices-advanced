@@ -1,13 +1,17 @@
 server:  
   port: ${PORT:8765}
 
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+management:
+  endpoints:
+    restart:
+      enabled: true
+    shutdown:
+      enabled: true
+    health:
+      sensitive: false
+  tracing:
+    sampling:
+      probability: 1.0
 
 spring:
   output:
@@ -62,30 +66,6 @@ springdoc:
       - name: transfer
         url: /v3/api-docs/transfer
 
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-
-zuul:
-  prefix: /api
-  routes:
-    account: 
-      path: /account/**
-      serviceId: account-service
-    customer: 
-      path: /customer/**
-      serviceId: customer-service
-    product: 
-      path: /product/**
-      serviceId: product-service
-    transfer: 
-      path: /transfer/**
-      serviceId: transfer-service
-
-ribbon:
-  eureka:
-    enabled: true
 
 eureka:
   client:

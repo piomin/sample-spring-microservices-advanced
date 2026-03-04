@@ -18,16 +18,18 @@ import pl.piomin.microservices.advanced.customer.repository.CustomerRepository;
 @RestController
 public class CustomerController {
 
-    @Autowired
-    private AccountClient accountClient;
+    public CustomerController(AccountClient accountClient, CustomerRepository repository) {
+        this.accountClient = accountClient;
+        this.repository = repository;
+    }
 
-    @Autowired
-    CustomerRepository repository;
+    private AccountClient accountClient;
+    private CustomerRepository repository;
 
     protected Logger logger = Logger.getLogger(CustomerController.class.getName());
 
     @RequestMapping(value = "/customers/pesel/{pesel}", method = RequestMethod.GET)
-    public Customer findByPesel(@PathVariable("pesel") String pesel) {
+    public Customer findByPesel(@PathVariable String pesel) {
         logger.info(String.format("Customer.findByPesel(%s)", pesel));
         return repository.findByPesel(pesel);
     }
@@ -39,7 +41,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/customers/{id}", method = RequestMethod.GET)
-    public Customer findById(@PathVariable("id") String id) {
+    public Customer findById(@PathVariable String id) {
         logger.info(String.format("Customer.findById(%s)", id));
         Customer customer = repository.findById(id).orElseThrow();
         List<Account> accounts = accountClient.getAccounts(id);
