@@ -6,22 +6,27 @@ jobs:
       - image: 'cimg/openjdk:25.0.1'
     steps:
       - checkout
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--filter=blob:none'
+      - run:
+          name: "Git fetch"
+          command: git fetch --no-filter --refetch
       - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar -DskipTests
+          command: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
   test:
     executor: machine_executor_amd64
     steps:
       - checkout
       - run:
-          name: Install OpenJDK 21
+          name: Install OpenJDK 25
           command: |
             java -version
-            sudo apt-get update && sudo apt-get install openjdk-21-jdk
-            sudo update-alternatives --set java /usr/lib/jvm/java-21-openjdk-amd64/bin/java
-            sudo update-alternatives --set javac /usr/lib/jvm/java-21-openjdk-amd64/bin/javac
+            sudo apt-get update && sudo apt-get install openjdk-25-jdk
+            sudo update-alternatives --set java /usr/lib/jvm/java-25-openjdk-amd64/bin/java
+            sudo update-alternatives --set javac /usr/lib/jvm/java-25-openjdk-amd64/bin/javac
             java -version
-            export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+            export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
       - run:
           name: Maven Tests
           command: mvn test
@@ -29,10 +34,13 @@ jobs:
 executors:
   machine_executor_amd64:
     machine:
-      image: ubuntu-2204:2023.10.1
+      image: ubuntu-2204:current
     environment:
       architecture: "amd64"
       platform: "linux/amd64"
+
+orbs:
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.8.0
 
 workflows:
   build-and-deploy:
