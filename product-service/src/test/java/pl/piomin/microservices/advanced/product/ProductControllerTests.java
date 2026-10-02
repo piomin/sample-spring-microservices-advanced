@@ -1,4 +1,4 @@
-package pl.piomin.microservices.advanced.customer;
+package pl.piomin.microservices.advanced.product;
 
 import io.specto.hoverfly.junit.core.Hoverfly;
 import io.specto.hoverfly.junit.core.config.LogLevel;
@@ -20,15 +20,15 @@ import org.springframework.http.ResponseEntity;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import pl.piomin.microservices.advanced.customer.model.Customer;
-import pl.piomin.microservices.advanced.customer.model.CustomerType;
+import pl.piomin.microservices.advanced.product.model.Product;
+import pl.piomin.microservices.advanced.product.model.ProductType;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
 import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
-import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.startsWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @HoverflyCore(config = @HoverflyConfig(logLevel = LogLevel.DEBUG))
 @ExtendWith(HoverflyExtension.class)
 @AutoConfigureTestRestTemplate
-public class CustomerControllerTests {
+public class ProductControllerTests {
 
     @Container
     @ServiceConnection
@@ -52,24 +52,26 @@ public class CustomerControllerTests {
 
     @Test
     @Order(1)
-    public void addCustomerTest() {
-        Customer c = new Customer();
-        c.setType(CustomerType.INDIVIDUAL);
-        c.setPesel("1234567890");
-        c.setName("Jan Testowy");
-        Customer created = template.postForObject("/customers", c, Customer.class);
+    public void addProductTest() {
+        Product p = new Product();
+        p.setAccountId("acc-123");
+        p.setCustomerId("cust-123");
+        p.setType(ProductType.CREDIT);
+        p.setBalance(15000);
+        p.setDateOfStart(LocalDate.now());
+        Product created = template.postForObject("/products", p, Product.class);
         assertNotNull(created);
         assertNotNull(created.getId());
-        assertEquals("Jan Testowy", created.getName());
-        assertEquals("1234567890", created.getPesel());
-        assertEquals(CustomerType.INDIVIDUAL, created.getType());
+        assertEquals("acc-123", created.getAccountId());
+        assertEquals(ProductType.CREDIT, created.getType());
+        assertEquals(15000, created.getBalance());
         id = created.getId();
     }
 
     @Test
     @Order(2)
-    public void findAllCustomersTest() {
-        ResponseEntity<List> response = template.getForEntity("/customers", List.class);
+    public void findAllProductsTest() {
+        ResponseEntity<List> response = template.getForEntity("/products", List.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertFalse(response.getBody().isEmpty());
@@ -77,41 +79,44 @@ public class CustomerControllerTests {
 
     @Test
     @Order(3)
-    public void findCustomerByPeselTest() {
-        Customer c = template.getForObject("/customers/pesel/{pesel}", Customer.class, "1234567890");
-        assertNotNull(c);
-        assertEquals("Jan Testowy", c.getName());
-        assertEquals("1234567890", c.getPesel());
+    public void findProductByAccountIdTest() {
+        Product p = template.getForObject("/products/account/{accountId}", Product.class, "acc-123");
+        assertNotNull(p);
+        assertEquals("acc-123", p.getAccountId());
+        assertEquals(ProductType.CREDIT, p.getType());
     }
 
     @Test
     @Order(4)
-    public void findCustomerWithAccountsTest(Hoverfly hoverfly) {
+    public void findProductByIdWithAccountDetailsTest(Hoverfly hoverfly) {
         hoverfly.simulate(
                 dsl(service("http://account-service")
-                        .get(startsWith("/accounts/customer"))
-                        .willReturn(success("[{\"id\":\"1\",\"number\":\"1234567890\"}]", "application/json"))));
+                        .get("/accounts/" + id)
+                        .willReturn(success(
+                                "{\"id\":\"acc-123\",\"number\":\"PL1234567890\",\"balance\":5000,\"customerId\":\"cust-456\"}",
+                                "application/json"))));
 
-        Customer c = template.getForObject("/customers/pesel/{pesel}", Customer.class, "1234567890");
-        assertNotNull(c);
-        assertNotNull(c.getId());
-        Customer cc = template.getForObject("/customers/{id}", Customer.class, c.getId());
-        assertNotNull(cc);
-        assertNotNull(cc.getAccounts());
-        assertFalse(cc.getAccounts().isEmpty());
+        Product p = template.getForObject("/products/{id}", Product.class, id);
+        assertNotNull(p);
+        assertEquals(id, p.getId());
+        assertEquals("cust-456", p.getCustomerId());
     }
 
     @Test
     @Order(5)
-    public void addSecondCustomerTest() {
-        Customer c = new Customer();
-        c.setType(CustomerType.COMPANY);
-        c.setPesel("9876543210");
-        c.setName("Firma Testowa");
-        Customer created = template.postForObject("/customers", c, Customer.class);
+    public void addInvestmentProductTest() {
+        Product p = new Product();
+        p.setAccountId("acc-456");
+        p.setCustomerId("cust-456");
+        p.setType(ProductType.INVESTMENT);
+        p.setBalance(100000);
+        p.setDateOfStart(LocalDate.now());
+        p.setDateOfEnd(LocalDate.now().plusYears(10));
+        Product created = template.postForObject("/products", p, Product.class);
         assertNotNull(created);
         assertNotNull(created.getId());
-        assertEquals(CustomerType.COMPANY, created.getType());
+        assertEquals(ProductType.INVESTMENT, created.getType());
+        assertEquals(100000, created.getBalance());
     }
 
 }
