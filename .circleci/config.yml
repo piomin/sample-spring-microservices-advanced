@@ -34,7 +34,7 @@ jobs:
 executors:
   machine_executor_amd64:
     machine:
-      image: ubuntu-2604:current
+      image: ubuntu-2204:current
     environment:
       architecture: "amd64"
       platform: "linux/amd64"
