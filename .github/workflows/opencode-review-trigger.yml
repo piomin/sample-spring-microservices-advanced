@@ -1,0 +1,67 @@
+name: Trigger OpenCode review
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  trigger:
+    if: endsWith(github.event.pull_request.user.login, '[bot]')
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Trigger OpenCode Review [Bot]
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh workflow run opencode-review.yml \
+            --repo "$REPO" \
+            --ref "${{ github.event.repository.default_branch }}" \
+            -f pr_number="$PR_NUMBER"
+
+  human-pr-review:
+    if: "!endsWith(github.event.pull_request.user.login, '[bot]')"
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Create Google credentials
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$GCP_SERVICE_ACCOUNT_JSON" \
+            > "$RUNNER_TEMP/gcp-credentials.json"
+
+      - uses: anomalyco/opencode/github@latest
+        env:
+          GOOGLE_VERTEX_PROJECT: ${{ secrets.GOOGLE_VERTEX_PROJECT }}
+          GOOGLE_VERTEX_LOCATION: ${{ secrets.GOOGLE_VERTEX_LOCATION }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-credentials.json
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          model: google-vertex-anthropic/claude-opus-4-6@default
+          use_github_token: true
+          prompt: |
+            Review this pull request for:
+            - potential bugs
+            - correctness issues
+            - security problems
+            - code quality issues
+            - problematic edge cases
+            - unnecessary complexity
+            
+            Focus on actionable findings that are relevant to the
+            changes in this pull request.
+            
+            Post the review findings.
