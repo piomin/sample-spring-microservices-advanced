@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DataMongoTest
 @Testcontainers
@@ -51,6 +52,7 @@ public class CustomerRepositoryTests {
     @Test
     @Order(2)
     public void testFindCustomer() {
+        assumeTrue(id != null, "testAddCustomer must have succeeded for id to be available");
         Optional<Customer> optCus = repository.findById(id);
         assertTrue(optCus.isPresent());
         assertEquals("Test1", optCus.get().getName());
@@ -80,11 +82,11 @@ public class CustomerRepositoryTests {
         Customer c = new Customer();
         c.setName("Company1");
         c.setPesel("9876543210");
-        c.setType(CustomerType.COMPANY);
+        c.setType(CustomerType.BUSINESS);
         c = repository.save(c);
         assertNotNull(c);
         assertNotNull(c.getId());
-        assertEquals(CustomerType.COMPANY, c.getType());
+        assertEquals(CustomerType.BUSINESS, c.getType());
     }
 
     @Test

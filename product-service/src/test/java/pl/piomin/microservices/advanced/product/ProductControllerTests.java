@@ -30,10 +30,13 @@ import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
 import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {
-                "spring.cloud.discovery.enabled=false"})
+                "spring.cloud.discovery.enabled=false",
+                "eureka.client.enabled=false",
+                "spring.cloud.openfeign.client.config.account-service.url=http://account-service"})
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @HoverflyCore(config = @HoverflyConfig(logLevel = LogLevel.DEBUG))
@@ -89,6 +92,11 @@ public class ProductControllerTests {
     @Test
     @Order(4)
     public void findProductByIdWithAccountDetailsTest(Hoverfly hoverfly) {
+        assumeTrue(id != null, "addProductTest must have succeeded for id to be available");
+        // ProductController.findById calls accountClient.getAccount(productId) — it passes the product's
+        // own MongoDB id as the account lookup key. The Hoverfly stub intercepts that exact path.
+        // The stub response's customerId ("cust-456") overwrites the product's persisted customerId ("cust-123"),
+        // which is intentional controller behavior being verified here.
         hoverfly.simulate(
                 dsl(service("http://account-service")
                         .get("/accounts/" + id)
@@ -99,7 +107,10 @@ public class ProductControllerTests {
         Product p = template.getForObject("/products/{id}", Product.class, id);
         assertNotNull(p);
         assertEquals(id, p.getId());
+        // customerId is overwritten by the account stub response (see ProductController.findById)
         assertEquals("cust-456", p.getCustomerId());
+        // accountId is unchanged from persisted value
+        assertEquals("acc-123", p.getAccountId());
     }
 
     @Test

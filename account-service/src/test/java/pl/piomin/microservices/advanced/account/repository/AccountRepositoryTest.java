@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DataMongoTest
 @Testcontainers
@@ -49,6 +50,7 @@ public class AccountRepositoryTest {
     @Test
     @Order(2)
     public void testFindAccount() {
+        assumeTrue(id != null, "testAddAccount must have succeeded for id to be available");
         Optional<Account> optAcc = repository.findById(id);
         assertTrue(optAcc.isPresent());
         assertEquals("12345678909", optAcc.get().getNumber());

@@ -90,6 +90,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.specto</groupId>
             <artifactId>hoverfly-java-junit5</artifactId>
             <version>0.20.2</version>
@@ -98,7 +103,7 @@
     </dependencies>
 
     <build>
-        <finalName>customer-service</finalName>
+        <finalName>product-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

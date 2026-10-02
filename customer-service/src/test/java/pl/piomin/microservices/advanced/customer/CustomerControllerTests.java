@@ -30,10 +30,13 @@ import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.startsWith;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {
-                "spring.cloud.discovery.enabled=false"})
+                "spring.cloud.discovery.enabled=false",
+                "eureka.client.enabled=false",
+                "spring.cloud.openfeign.client.config.account-service.url=http://account-service"})
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @HoverflyCore(config = @HoverflyConfig(logLevel = LogLevel.DEBUG))
@@ -87,6 +90,7 @@ public class CustomerControllerTests {
     @Test
     @Order(4)
     public void findCustomerWithAccountsTest(Hoverfly hoverfly) {
+        assumeTrue(id != null, "addCustomerTest must have succeeded for id to be available");
         hoverfly.simulate(
                 dsl(service("http://account-service")
                         .get(startsWith("/accounts/customer"))
@@ -105,13 +109,13 @@ public class CustomerControllerTests {
     @Order(5)
     public void addSecondCustomerTest() {
         Customer c = new Customer();
-        c.setType(CustomerType.COMPANY);
+        c.setType(CustomerType.BUSINESS);
         c.setPesel("9876543210");
         c.setName("Firma Testowa");
         Customer created = template.postForObject("/customers", c, Customer.class);
         assertNotNull(created);
         assertNotNull(created.getId());
-        assertEquals(CustomerType.COMPANY, created.getType());
+        assertEquals(CustomerType.BUSINESS, created.getType());
     }
 
 }

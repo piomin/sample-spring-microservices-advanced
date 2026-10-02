@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DataMongoTest
 @Testcontainers
@@ -57,6 +58,7 @@ public class ProductRepositoryTests {
     @Test
     @Order(2)
     public void testFindProduct() {
+        assumeTrue(id != null, "testAddProduct must have succeeded for id to be available");
         Optional<Product> optProduct = repository.findById(id);
         assertTrue(optProduct.isPresent());
         assertEquals("123", optProduct.get().getAccountId());

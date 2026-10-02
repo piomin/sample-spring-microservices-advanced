@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DataMongoTest
 @Testcontainers
@@ -53,6 +54,7 @@ public class TransferRepositoryTests {
     @Test
     @Order(2)
     public void testFindTransferById() {
+        assumeTrue(id != null, "testAddTransfer must have succeeded for id to be available");
         Optional<Transfer> optTransfer = repository.findById(id);
         assertTrue(optTransfer.isPresent());
         assertEquals("ACC-001", optTransfer.get().getSender());
