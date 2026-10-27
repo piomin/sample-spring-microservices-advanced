@@ -25,17 +25,9 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Create Google credentials
-        env:
-          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
-        run: |
-          printf '%s' "$GCP_SERVICE_ACCOUNT_JSON" > "$RUNNER_TEMP/gcp-credentials.json"
-
       - name: Run opencode
         uses: anomalyco/opencode/github@latest
         env:
-          GOOGLE_VERTEX_PROJECT: ${{ secrets.GOOGLE_VERTEX_PROJECT }}
-          GOOGLE_VERTEX_LOCATION: ${{ secrets.GOOGLE_VERTEX_LOCATION }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-credentials.json
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         with:
-          model: google-vertex-anthropic/claude-sonnet-4-6@default
+          model: anthropic/claude-sonnet-5
