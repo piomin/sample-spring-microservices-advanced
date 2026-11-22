@@ -13,7 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.mongodb.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.piomin.microservices.advanced.account.model.Account;
